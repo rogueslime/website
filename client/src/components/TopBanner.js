@@ -15,7 +15,7 @@ function TopBanner() {
     })
 
     const textProps = useSpring({
-        ref: starRef,
+        ref: textRef,
         from: { opacity: 0 },
         to: { opacity: 1 },
         config: { duration: 500 },
@@ -35,7 +35,6 @@ function TopBanner() {
         <animated.div style={moveUpProps}>
             <animated.img src={starLogo} style={starProps} alt="" width="100px" />
             <animated.p style={textProps}>TRAY!!!</animated.p>
-            <p>wooofafasfasf</p>
         </animated.div>
     );
 }
