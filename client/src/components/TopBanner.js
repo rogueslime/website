@@ -1,25 +1,42 @@
 import starLogo from '../images/kirbyStar.png'
-import './styles/TopBanner.css'
-import {useEffect} from 'react';
-
-/*At the moment, TopBanner is using keyframes to handle animations. Upgrade these to React Spring for better,
-more customizable animations. */
+import { useSpring, animated, useChain, useSpringRef } from 'react-spring'
+import { useEffect } from 'react';
 
 function TopBanner() {
-    useEffect(() => {
-        const starLogo = document.getElementById('star-logo');
-        const bannerText = document.getElementById('banner-text');
-        
-        starLogo.style.transform = 'translate(400%)';
-        bannerText.style.opacity = '1';
-        starLogo.style.transform = 'translateY(200%)';
-    }, []);
+    const starRef = useSpringRef();
+    const textRef = useSpringRef();
+    const moveUpRef = useSpringRef();
+
+    const starProps = useSpring({
+        ref: starRef,
+        from: { transform: 'translateX(-100%)' },
+        to: { transform: 'translateX(0%)' },
+        config: { duration: 500 },
+    })
+
+    const textProps = useSpring({
+        ref: starRef,
+        from: { opacity: 0 },
+        to: { opacity: 1 },
+        config: { duration: 500 },
+        delay: 500,
+    })
+
+    const moveUpProps = useSpring({
+        ref: moveUpRef,
+        from: { transform: 'translateY(100%)' },
+        to: { transform: 'translateY(0%)' },
+        config: { duration: 1000 },
+    })
+
+    useChain([starRef, textRef, moveUpRef], [0, 0.5, 1.5]);
 
     return (
-        <div class="banner-content">
-            <img src={starLogo} id="star-logo" alt="An image of a twinkling star!" width='100px' />
-            <p id="banner-text">TRAY!!!</p>
-        </div>
+        <animated.div style={moveUpProps}>
+            <animated.img src={starLogo} style={starProps} alt="" width="100px" />
+            <animated.p style={textProps}>TRAY!!!</animated.p>
+            <p>wooofafasfasf</p>
+        </animated.div>
     );
 }
 
